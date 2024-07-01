@@ -1,0 +1,117 @@
+#pantalla-game-over, #pantalla-juego {
+    display : none;
+    width: 100vw;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+#game-box {
+    
+    background-image: url(../IMAGENES/Espacio-Azul.png);
+    background-size: cover;
+    background-position: center; 
+    width: 800px;
+    height: 600px;
+}
+#pantalla-inicio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+#play-btn{
+
+    width: 120px;
+    height: 80px;
+    position:absolute;
+    background:rgba(57, 58, 146, 0.27);
+    text-transform: uppercase;
+    color:black;
+    font-weight:700;
+    letter-spacing:1px;
+    padding: 20px;
+    font-size: 20px;
+    margin-top: 130px;
+    border-radius: 10px; 
+    color:white;
+  }
+
+#instrucciones-btn{
+    width: 240px;
+    height: 60px;
+    position:absolute;
+    background:rgba(57, 58, 146, 0.27);
+    text-transform: uppercase;
+    color:black;
+    font-weight:700;
+    letter-spacing:1px;
+    padding: 20px;
+    font-size: 20px;
+    margin-top: 290px;
+    border-radius: 10px; 
+    color:white;
+
+  }
+#instrucciones{
+    
+    display: none;
+    text-align: center;
+    align-items: center;
+    position:absolute;
+    margin-top: 500px;
+    width: 700px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size:25px;
+    font-weight:700;
+    text-transform:uppercase;
+    background:rgba(57, 58, 146, 0.27);
+    color:white;
+
+}
+#registro{
+    
+    text-transform: uppercase;
+    margin-top: -300px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size:20px;
+    font-weight:700;
+    position:absolute;
+    color:white;
+}
+#save-btn{
+    border-radius: 10px; 
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size:15px;
+    font-weight:700;
+    text-transform: uppercase;
+    background:rgba(57, 58, 146, 0.27);
+    color:white
+}
+#name{
+    border-radius: 10px; 
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size:15px;
+    font-weight:700;
+    text-transform: uppercase;
+    background:rgba(57, 58, 146, 0.27);
+    color:white;
+}
+
+#score{
+
+}
+#titulo{
+    margin-top: -450px;
+    position:absolute;
+}
+
+body{
+
+    align-items: center;
+    display: flex;
+    background-color: grey
+  }
+

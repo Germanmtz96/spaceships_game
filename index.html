@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/style.css">
+</head>
+
+<body>
+    <!-- PANTALLA DE INICIO -->
+
+    <div id="pantalla-inicio" class="container">
+        <img id="titulo" src="./IMAGENES/ttítulo-1.png" alt="">
+        <form id="registro"action="" method="post">
+            <label for="name">Nombre:</label>
+            <input id="name" type="text" />
+            <button id="save-btn"type="submit">Guardar</button>
+          </form>
+        <img src="./IMAGENES/space2.jpg" width="800" height="600" alt="logo">
+        <button id="play-btn">jugar</button>
+        <button id="instrucciones-btn">INSTRUCCIONES</button>
+        <p id ="instrucciones">Destruye las naves enemigas utilizando , (w,a,s,d) para moverte por la pantalla y (click izquierdo) para disparar</p>
+    </div>
+
+<!-- PANTALLA DE JUEGO -->
+
+<div id="pantalla-juego" class="container">
+<!-- Elementos del juego como puntuación, vidas, etc deberia ir aqui (dentro del game-screen pero fuera del game-box) -->
+<!-- <p id="usuario">Nombre de usuario</p> <p id="vidas">Vidas</p> <p>SCORE <span id="score">0</span></p>-->
+    <div id="game-box">
+ <!-- Los elementos del juego serán añadidos desde JS con manipulación de DOM -->
+
+    </div>
+</div>
+
+  <!-- PANTALLA FINAL -->
+
+  <div id="pantalla-game-over" class="container">
+    <img src="./IMAGENES/game_over.png" width="800"  alt="logo">
+    <button id="try-again-btn"></button>
+  </div>
+
+
+    
+    <script src="./JS/enemigo.js"></script>
+    <script src="/JS/minave.js"></script>
+    <script src="./JS/estructura.js"></script>
+</body>
+</html>

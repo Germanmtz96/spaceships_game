@@ -1,13 +1,13 @@
 class MiNave {
 
-    constructor(){
+    constructor(x, y){
 
         this.node = document.createElement("img")
         this.node.src = "./IMAGENES/Spaceship_BLUE.png"
         gameBoxNode.append(this.node)
 
-            this.x = 570 // posicion eje X
-            this.y = 100 // posicion eje Y
+            this.x = x // posicion eje X
+            this.y = y // posicion eje Y
             this.w = 60 // ancho
             this.h = 60 // alto
             this.node.style.transform = "rotate(90deg)"
@@ -22,12 +22,12 @@ class MiNave {
             this.desplazamiento = 8
     }
     derecha(){
-        if(this.x + this.w < (gameBoxNode.offsetWidth)){
+        if(this.x + this.w < (gameScreenNode.offsetWidth/3)){
         this.x += this.desplazamiento
             this.node.style.left = `${this.x}px`}
     }
     izquierda(){
-        if(this.x  >= 550 ){ 
+        if(this.x  >= (gameScreenNode.offsetWidth/100 )){ 
             this.x -= this.desplazamiento
             this.node.style.left = `${this.x}px`}
     }
@@ -38,7 +38,7 @@ class MiNave {
     }
     arriba(){
 
-      if(this.y >= 10) 
+      if(this.y >= 50) 
         {this.y -= this.desplazamiento
             this.node.style.top = `${this.y}px`}
 

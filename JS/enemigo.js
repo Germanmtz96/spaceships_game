@@ -22,7 +22,7 @@ class Enemy {
             this.vida = 200
             this.w = 80 // ancho
             this.h = 80 // alto
-            this.speed = 1
+            this.speed = 2
         }
         
         

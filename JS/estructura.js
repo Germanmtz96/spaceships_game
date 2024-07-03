@@ -34,6 +34,7 @@ let otraPartida = true;
 let disparos = false;
 let score = null;
 let vidas = null;
+let proteccion = null;
 let escudo = null;
 
 let mainIntervalId = null;
@@ -47,7 +48,8 @@ let enemigoArr = [];
 let shotArr = [];
 let shotEnemyArr = [];
 let escudoArr = [];
-
+let boss = null;
+console.log(escudoArr)
 sonidoMusicaGame.loop = true;
 sonidoIntro.loop = true;
 
@@ -63,16 +65,18 @@ function startGame() {
   score = 0;
   vidas = 3;
   escudo = 0;
+  boss = null;
 
   disparos = false;
   message.innerText = `Level ${lvl}`;
   message.classList.remove("txt-lvl");
   setTimeout(function () {
-    message.classList.add("txt-lvl");
+  message.classList.add("txt-lvl");
   }, 2500);
   gameBoxNode.append(vidasNode);
   gameBoxNode.append(scoreNode);
   gameBoxNode.append(userNode);
+  //! gameBoxNode.append(userName);
 
   gameOverScreenNode.style.display = "none";
   inicioScreenNode.style.display = "none";
@@ -100,7 +104,7 @@ function startGame() {
 
   escudoInterval = setInterval(() => {
     escudoSpawn();
-  }, 1000);
+  }, 10000);
 
   bossInterval = setInterval(() => {
     //*DISPARO QUE HAGA EL BOSS
@@ -135,6 +139,9 @@ function gameOver() {
     shotEnemyArr.forEach((cadaShotEnemigo) => {
       cadaShotEnemigo.node.remove();
     });
+    escudoArr.forEach((cadaEscudo) => {
+        cadaEscudo.node.remove();
+      });
     nave.node.remove();
 
     save = null;
@@ -142,6 +149,7 @@ function gameOver() {
     enemigoArr = [];
     shotArr = [];
     shotEnemyArr = [];
+    escudoArr = [];
 
     //* 1.Limpiar todos los intervalos
     clearInterval(mainIntervalId);
@@ -173,13 +181,15 @@ function enemySpawn() {
   if (lvl === 4) {
     disparos = true;
     enemy = new Naves4(randomPositionY);
-  } else {
+  } else if(lvl === 5){
+    boss = new Boss()
+  }else {
     enemy = new Enemy(randomPositionY, lvl);
   }
   enemigoArr.push(enemy);
   //console.log(enemigoArr.length);
 }
-
+//!POR MIRAR
 function bossSpawn() {
   disparos = true;
   sonidointerferencia.play();
@@ -241,6 +251,7 @@ function shotEnemySpawn() {
     });
   }
 }
+//! POR MIRAR
 function muerteEnemigo(){
     if(cadaEnemigo.vida <= 0){
 
@@ -264,7 +275,7 @@ function colisionShot() {
         cadaDisparo.y < cadaEnemigo.y + cadaEnemigo.h &&
         cadaDisparo.y + cadaDisparo.h > cadaEnemigo.y
       ) {
-        /* if(indexEnemy.vida <= 0){
+       /*   if(indexEnemy.vida <= 0){
 
             sonidoExplosion.play();
     
@@ -274,16 +285,16 @@ function colisionShot() {
             cadaDisparo.node.remove();
             score += 10;}else{
                 indexEnemy.vida -= indexShot.damage
-            } */
-       // muerteEnemigo()
+            }  */
+        //muerteEnemigo()
 
-        sonidoExplosion.play();
+         sonidoExplosion.play();
 
          enemigoArr.splice(indexEnemy, 1);
         cadaEnemigo.node.remove();
         shotArr.splice(indexShot, 1);
         cadaDisparo.node.remove();
-        score += 10; 
+        score += 10;  
 
         checkeoPasarDeNivel();
       }
@@ -325,6 +336,18 @@ function checkeoPasarDeNivel() {
     clearInterval(escudoInterval);
     bossSpawn();
   }
+}
+
+function escudoActivado(){
+    let navePositionY = nanave.y
+    let navePositionX = nave.x
+    proteccion = new Barrera (navePositionY, navePositionX);
+
+
+
+    setTimeout(() => {
+        escudoActivado = false;
+      }, 2000);
 }
 
 function colisionNave() {
@@ -383,7 +406,7 @@ function colisionNave() {
       escudoArr.splice(index, 1);
       cadaEscudo.node.remove();
       //todo volverlo de otro color
-      //console.log("disparo certero")
+      console.log("escudo")
       /* nave.node.remove()
             setTimeout(()=>{
              gameBoxNode.append(nave.node)
@@ -419,6 +442,10 @@ function gameLoop() {
   shotEnemyArr.forEach((cadaShotEnemy) => {
     cadaShotEnemy.movimientoDisparoEnemigo();
   });
+
+  escudoArr.forEach((cadaEscudo)=>{
+    cadaEscudo.movimientoEscudo()
+  })
 
   /* if(lvl === 5){
      boss.movimientoBoss()
@@ -467,10 +494,12 @@ playBtnNode.addEventListener("click", () => {
   sonidoBoton.play();
 });
 
-gameBoxNode.addEventListener("contextmenu", (event) => {
-  event.preventDefault();
-  escudoActivado();
+window.addEventListener("keydown", (event) => {
+    if (event.key === "e" && escudo ){
+  escudoActivado = true
   sonidoEscudoLaser.play();
+  console.log("escudo activado")
+}
 });
 
 gameBoxNode.addEventListener("click", () => {

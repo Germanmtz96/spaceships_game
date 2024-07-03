@@ -18,7 +18,7 @@ class DisparoEnemigo {
         this.node.style.width = `${this.w}px` //le pone al objeto el ancho que nosotros le asignamos
         this.node.style.height = `${this.h}px`
 
-        this.speed = 2
+        this.speed = 2.5
 
     }
 

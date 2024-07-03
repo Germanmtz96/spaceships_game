@@ -7,10 +7,10 @@ constructor(positionY){
     this.vida = 50
     this.w = 70 // ancho
     this.h = 70 // alto
-    this.speed = 1
-    gameBoxNode.append(this.node)
     this.x = gameScreenNode.offsetWidth // posicion eje X
     this.y = positionY
+    this.speed = 1
+    gameBoxNode.append(this.node)
     
     this.node.style.transform = "rotate(-90deg)"
 

@@ -1,7 +1,5 @@
-//? SE ME QUEDAN DISPAROS CONGELADOS EN EL MAPA
+
 //? APARTIR DE LVL 4 AL FONDO DE DONDE ESTA MI NAVE APARECEN MUCHAS IMG DISPAROS
-//? MOVILIDAD MEJORABLE?
-//? COMO QUITAR CORAZONES CUANDO PIERDAS VIDAS E AÑADIR OBJETOS QUE DEN CORAZONES
 //? QUE EL NOMBRE DE USUARIO SALGA EN PARTIDA
 //? PONER LOS SONIDOS
 //? PONER VIDA A LOS ENEMIGOS Y DAÑO A NUESTRO DISPARO
@@ -21,11 +19,10 @@ const instruccionesBtnNode = document.querySelector("#instrucciones-btn")
 const tryAgainBtnNode = document.querySelector("#try-again-btn")
 //textos
 const userNode = document.querySelector("#user") 
-//todo
+//todo user
 const vidasNode = document.querySelector("#vidas")
-//todo se tiene que pintar las vidas
 const scoreNode = document.querySelector("#score")
-//todo se tiene que pintar el score
+
 const instruccionesNode = document.querySelector("#instrucciones")
 //game box
 const gameBoxNode = document.querySelector("#game-box")
@@ -34,23 +31,30 @@ const gameBoxNode = document.querySelector("#game-box")
 let userName = null;
 let instruccion = true;
 let otraPartida = true;
+let disparos = false;
 let score = null;
 let vidas = null;
+let escudo = null;
 
 
 let mainIntervalId = null;  
 let enemyInterval = null;
 let shotEnemyInteval = null;
 let bossInterval = null;
-
+let escudoInterval = null;
 
 let lvl = null;
 let enemigoArr = []
 let shotArr = []
 let shotEnemyArr = []
+let escudoArr = []
 let boss = null;
 
+sonidoMusicaGame.loop = true;
+sonidoIntro.loop = true;
 
+//todo no funciona sonido
+sonidoIntro.play()
 
 
 
@@ -61,11 +65,15 @@ let boss = null;
 
 //* FUNCIONES GLOBALES DEL JUEGO
 function startGame () {
+    //todo no funciona sonido
+    sonidoMusicaGame.play()
     //1. Ocultar pantalla de inicio
     lvl = 1;
     score = 0;
     vidas = 3;
+    escudo = 0;
     boss = null;
+    disparos = false;
     gameBoxNode.append(vidasNode)
     gameBoxNode.append(scoreNode)
     gameBoxNode.append(userNode)
@@ -86,16 +94,40 @@ function startGame () {
     }, Math.round(1000/60))
     //5. Iniciamos otros intervalos que determinan la frecuencia con la que aparecen los elementos (tuberias) del juego
     enemyInterval = setInterval(()=>{
+        if(lvl === 1){
         enemySpawn()
-        if(lvl=== 4){
+        }else if(lvl === 2){
+            setTimeout(() => {
+                enemySpawn()
+            }, 9000);  
+        }else if(lvl === 3){
+            setTimeout(() => {
+                enemySpawn()
+            }, 8000); 
+        }else if(lvl=== 4){
+            setTimeout(() => {
         enemyFinalSpawn()
-    }
-        
+            }, 20000);
+        }else if(lvl=== 5){
+            setTimeout(() => {
+            bossSpawn()
+            }, 20000);
+        }  
+
     },1000)
-    shotEnemyInteval = setInterval(()=>{
-        shotEnemySpawn()
-    },5000)
     
+    shotEnemyInteval = setInterval(()=>{
+    shotEnemySpawn()
+    },5000)
+
+    escudoInterval = setInterval(()=>{
+        escudoSpawn()
+    },10000)
+    
+    bossInterval = setInterval(()=>{
+        boss.disparo()
+     },7000)
+
 }
 
 
@@ -115,6 +147,8 @@ function saveUser(){
 function gameOver(){
     if (vidas === 0){
         
+        sonidoGameover.play()
+
         enemigoArr.forEach((cadaEnemigo)=>{
             cadaEnemigo.node.remove()
         })
@@ -138,7 +172,7 @@ function gameOver(){
     clearInterval(enemyInterval)
     clearInterval(shotEnemyInteval)
     clearInterval(bossInterval)
-
+    clearInterval(escudoInterval)
     //* 2. Ocultar la pantalla de juego
 
     gameScreenNode.style.display = "none"
@@ -150,7 +184,11 @@ function gameOver(){
 }
 
 
-
+function escudoSpawn () {
+    let randomPositionY = Math.floor((Math.random()* (gameBoxNode.offsetHeight - 50)+10))
+    let escudo = new Escudo (randomPositionY)
+    escudoArr.push(escudo)
+}
 
 function enemySpawn(){
     let randomPositionY = Math.floor((Math.random()* (gameBoxNode.offsetHeight - 50)+10))
@@ -159,7 +197,7 @@ function enemySpawn(){
     
 }
 function enemyFinalSpawn(){
-    
+        disparos = true
         let randomPositionY = Math.floor((Math.random()* (gameBoxNode.offsetHeight - 50)+10))
         let enemy = new Naves4(randomPositionY)
         enemigoArr.push(enemy)
@@ -168,13 +206,13 @@ function enemyFinalSpawn(){
 }
 
 function bossSpawn (){
-  
+        disparos = true
+        sonidointerferencia.play()
+
         let positionY = gameBoxNode.offsetHeight/2
         boss = new Boss (positionY)
 
-        bossInterval = setInterval(()=>{
-           boss.disparo()
-        },7000)
+        
 
         boss.movimientoBoss()
     
@@ -184,6 +222,7 @@ function bossSpawn (){
 function cheackEnemyDisapear(){
 let firstEnemy = enemigoArr[0]
 if( firstEnemy && firstEnemy.x <= -firstEnemy.w){
+    vidas-=1
     enemigoArr.shift()
     firstEnemy.node.remove()
 }
@@ -196,10 +235,10 @@ function cheackShotDisapear(){
         firstShot.node.remove()
     }
 }
-  function cheackShotEnemyDisapear(){
+function cheackShotEnemyDisapear(){
     let firstShotEnemy = shotEnemyArr[0]
     
-    if(firstShotEnemy && firstShotEnemy.x < 0){
+    if(firstShotEnemy && firstShotEnemy.x > 0){
         shotEnemyArr.shift()
         firstShotEnemy.node.remove()
     }
@@ -219,9 +258,12 @@ function shotSpawn(){
 }
 
 function shotEnemySpawn(){
-    if(lvl === 4 || lvl === 2){
+    
+    if(disparos){
+        
+        sonidoshot1.play()
     enemigoArr.forEach((cadaShotEnemigo)=>{
-         
+        
         let enemyPositionY = cadaShotEnemigo.y +12
         let enemyPositionX = cadaShotEnemigo.x +12
         let shotEnemy = new DisparoEnemigo(enemyPositionY,enemyPositionX)
@@ -229,6 +271,8 @@ function shotEnemySpawn(){
         let shotEnemyAbajo = new DisparoEnemigo(enemyPositionY+ 30,enemyPositionX)
         shotEnemyArr.push(shotEnemyAbajo)
     })
+
+    
 }
 }
 function colisionShot(){
@@ -242,21 +286,27 @@ function colisionShot(){
             cadaDisparo.y < cadaEnemigo.y + cadaEnemigo.h &&
             cadaDisparo.y + cadaDisparo.h > cadaEnemigo.y)
             {
+                sonidoExplosion.play()
+
                 enemigoArr.splice(indexEnemy,1)
           cadaEnemigo.node.remove()
           shotArr.splice(indexShot,1)
           cadaDisparo.node.remove()
           score +=10
-          if(score === 200){
+          if(score === 100){
             lvl = 2
-          }else if(score === 400){
+            
+          }else if(score === 200){
             lvl = 3
-          }else if(score === 600){
+            
+          }else if(score === 300){
             lvl = 4
-          }else if(score === 1000){
+            
+          }else if(score === 500){
             lvl = 5
             clearInterval(enemyInterval)
             clearInterval(shotEnemyInteval)
+            clearInterval(escudoInterval)
             bossSpawn ()
           }
         }
@@ -277,10 +327,13 @@ function colisionNave(){
             cadaEnemigo.y < nave.y + nave.h &&
             cadaEnemigo.y + cadaEnemigo.h > nave.y
           ) {
+            sonidoExplosion.play()
+            sonidointerferencia2.play()
             vidas-=1
             enemigoArr.splice(index,1)
             cadaEnemigo.node.remove()
            // console.log("la nave se estampo")
+           //todo cuando reciba daño que se vaya y vuelva la imagen un seg
           }
           
     })
@@ -292,12 +345,36 @@ function colisionNave(){
             cadaDisparo.y < nave.y + nave.h &&
             cadaDisparo.y + cadaDisparo.h > nave.y
           ) {
+            sonidointerferencia2.play()
             vidas-=1
             shotEnemyArr.splice(index,1)
             cadaDisparo.node.remove()
             //console.log("disparo certero")
+            //todo cuando reciba daño que se vaya y vuelva la imagen un seg
+            /* for(let i = 0 ;i < 10 ; i++){
+                gameBoxNode.remove(nave.node)
+                gameBoxNode.append(nave.node)
+            } */
           }
-
+    escudoArr.forEach((cadaEscudo,index)=>{
+        if (
+            cadaEscudo.x < nave.x + nave.w &&
+            cadaEscudo.x + cadaEscudo.w > nave.x &&
+            cadaEscudo.y < nave.y + nave.h &&
+            cadaEscudo.y + cadaEscudo.h > nave.y
+          ) {
+            sonidoBoton.play()
+            escudo += 1
+            escudoArr.splice(index,1)
+            cadaEscudo.node.remove()
+            //console.log("disparo certero")
+            //todo cuando reciba escudo cabie unos segundos de color
+            /* for(let i = 0 ;i < 10 ; i++){
+                gameBoxNode.remove(nave.node)
+                gameBoxNode.append(nave.node)
+            } */
+          }
+    })
 
     })
 
@@ -338,13 +415,15 @@ shotEnemyArr.forEach((cadaShotEnemy)=>{
 
 saludNave()
 sumandoScore()
+sumandoScore()
+
 gameOver()
+
 colisionShot()
 colisionNave()
 cheackShotDisapear()
 cheackEnemyDisapear()
- cheackShotEnemyDisapear()  
-sumandoScore()
+cheackShotEnemyDisapear()  
 }
 
 
@@ -384,11 +463,12 @@ window.addEventListener("keydown", (event) =>{
 //click
  playBtnNode.addEventListener("click",()=>{
     startGame()
-       //todo sonidoBoton.play()
+    sonidoBoton.play()
     });
 
 gameBoxNode.addEventListener("click",()=>{
     shotSpawn()
+    sonidoshot2.play();
 })    
 instruccionesBtnNode.addEventListener("click",()=>{
     instrucciones()
@@ -396,7 +476,9 @@ instruccionesBtnNode.addEventListener("click",()=>{
 })
 tryAgainBtnNode.addEventListener("click",()=>{
     startGame ()
+    sonidoBoton.play()
 })
 saveBtnNode.addEventListener("click",()=>{
-    
+    sonidoBoton.play()
+    //todo guarda el que
 })

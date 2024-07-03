@@ -1,14 +1,16 @@
 class Boss{
 
         constructor(positionY){
+
             this.node = document.createElement("img")
             this.node.src = "./IMAGENES/Spaceship_02_RED.png"
             this.vida = 2000
-            gameBoxNode.append(this.node)
             this.x = gameScreenNode.offsetWidth // posicion eje X
             this.y = positionY
             this.w = 150 // ancho
             this.h = 150 // alto
+            this.speed = 1
+            gameBoxNode.append(this.node)
             
             this.node.style.transform = "rotate(-90deg)"
 
@@ -28,10 +30,7 @@ class Boss{
             if(this.x<= (gameScreenNode.offsetWidth /2))
                 this.x -= this.speed
                 this.node.style.left = `${this.x}px`
+        }
         
-        }
-        disparo(){
-            
-        }
-
+        
 }

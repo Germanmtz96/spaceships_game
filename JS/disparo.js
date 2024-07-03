@@ -19,6 +19,7 @@ class Disparo {
         this.node.style.height = `${this.h}px`
 
         this.speed = 4
+        this.damage = 20
 
     }
 
@@ -29,6 +30,8 @@ class Disparo {
         this.node.style.left = `${this.x}px`
 
     }
+
+
    
 
 

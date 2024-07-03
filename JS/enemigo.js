@@ -15,11 +15,11 @@ class Enemy {
             this.vida = 50
             this.w = 60 // ancho
             this.h = 60 // alto
-            this.speed = 1.2
+            this.speed = 5
         }
         else if(type === 3){
             this.node.src = "./IMAGENES/Spaceship_06_RED.png"
-            this.vida = 100
+            this.vida = 200
             this.w = 80 // ancho
             this.h = 80 // alto
             this.speed = 1

@@ -11,6 +11,7 @@ class MiNave {
             this.w = 60 // ancho
             this.h = 60 // alto
             this.node.style.transform = "rotate(90deg)"
+            this.escudoActivado = false
 
             //configuracion inicial de el elemento
             this.node.style.position = "absolute" //para poder usar las propiedades top y left(si no las ignora)
@@ -19,7 +20,7 @@ class MiNave {
             this.node.style.width = `${this.w}px` //le pone al objeto el ancho que nosotros le asignamos
             this.node.style.height = `${this.h}px`
 
-            this.desplazamiento = 8
+            this.desplazamiento = 10
     }
     derecha(){
         if(this.x + this.w < (gameScreenNode.offsetWidth/3)){
@@ -41,9 +42,7 @@ class MiNave {
       if(this.y >= 50) 
         {this.y -= this.desplazamiento
             this.node.style.top = `${this.y}px`}
-
-        
-        
+ 
     }
 
 

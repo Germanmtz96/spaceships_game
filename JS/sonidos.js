@@ -1,0 +1,9 @@
+let sonidoBoton = new Audio('./SONIDOS/coger_algo_bueno.mp3');
+let sonidoExplosion = new Audio('./SONIDOS/explosion.wav');
+let sonidoGameover = new Audio('./SONIDOS/GAMEOVER.wav');
+let sonidointerferencia = new Audio('./SONIDOS/interferencia.wav');
+let sonidoIntro = new Audio('./SONIDOS/intro.wav');
+let sonidoMusicaGame = new Audio('./SONIDOS/muscia_game.wav');
+let sonidoshot1 = new Audio('./SONIDOS/shot_1.wav');
+let sonidoshot2 = new Audio('./SONIDOS/shot_2.wav');
+let sonidoshot3 = new Audio('./SONIDOS/shot_3.wav');

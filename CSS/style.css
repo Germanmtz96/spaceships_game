@@ -3,16 +3,27 @@
     width: 100vw;
 }
 #pantalla-juego{
+    
     display : none;
     width: 100vw;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    list-style: none;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size:15px;
+    font-weight:700;
+    text-transform: uppercase;
+    
+    
 }
 .container{
     display: flex;
     justify-content: center;
     text-align: center;
 }
+
 #game-box {
-    
     position: relative;
     overflow: hidden;
     user-select: none;
@@ -21,7 +32,23 @@
     background-position: center; 
     width: 70vw;
     height: 45vw;
+    color:white;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
+#navbar{
+    list-style: none;
+    margin-top: 0;
+    font-size:12px;
+    text-transform: uppercase;
+    color:white;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    position:absolute;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 60%;
+}
+
 #pantalla-inicio{
     display: flex;
     justify-content: center;
@@ -63,7 +90,7 @@
 
   }
 #instrucciones{
-    
+    padding: 15px;
     display: none;
     text-align: center;
     align-items: center;
@@ -71,7 +98,7 @@
     margin-top: 500px;
     width: 700px;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    font-size:25px;
+    font-size:20px;
     font-weight:700;
     text-transform:uppercase;
     background:rgba(57, 58, 146, 0.27);
@@ -108,22 +135,9 @@
 }
 
 #score{
-
+  
 }
 
-#navbar{
-    list-style: none;
-    margin-top: 0;
-    font-size:12px;
-    text-transform: uppercase;
-    color:white;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    position:absolute;
-    display: flex;
-    text-align: center;
-    justify-content: space-between;
-    width: 60%;
-}
 
 #titulo{
     margin-top: -450px;
@@ -134,7 +148,7 @@ body{
 
     align-items: center;
     display: flex;
-    background-color: grey
+    background-color: rgb(0, 0, 8)
   }
 
 #try-again-btn{

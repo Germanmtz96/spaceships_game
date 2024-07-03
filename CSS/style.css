@@ -134,10 +134,20 @@
     color:white;
 }
 
-#score{
-  
+#message {
+    position: absolute;
+    font-size: 140px;
+    background-color: rgba(138, 138, 138, 0);
+    color: rgb(204, 191, 191);
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
 }
-
+.txt-lvl{
+    display: none;
+}
 
 #titulo{
     margin-top: -450px;

@@ -8,3 +8,4 @@ let sonidoMusicaGame = new Audio('./SONIDOS/muscia_game.wav');
 let sonidoshot1 = new Audio('./SONIDOS/shot_1.wav');
 let sonidoshot2 = new Audio('./SONIDOS/shot_2.wav');
 let sonidoshot3 = new Audio('./SONIDOS/shot_3.wav');
+let sonidoEscudoLaser = new Audio('./SONIDOS/escudo_laser.wav');

@@ -26,6 +26,7 @@ class Disparo {
 
 
     movimientoDisparo(){
+        //console.log("disparo moviendose")
         this.x += this.speed
         this.node.style.left = `${this.x}px`
 

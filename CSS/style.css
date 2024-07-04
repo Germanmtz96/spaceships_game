@@ -145,6 +145,17 @@
     transform: translate(-50%, -50%);
     
 }
+#startMusicBtn{
+    text-transform: uppercase;
+    color: white;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size:12px;
+    font-weight:700;
+    position:absolute;
+    margin-top: -620px;
+    margin-left: 630px;
+    background:rgba(57, 58, 146, 0.27);
+}
 .txt-lvl{
     display: none;
 }

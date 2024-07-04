@@ -27,7 +27,7 @@ class Boss{
 
 
         movimientoEnemigo(){
-            if(this.x<= (gameScreenNode.offsetWidth /2))
+            
                 this.x -= this.speed
                 this.node.style.left = `${this.x}px`
         }

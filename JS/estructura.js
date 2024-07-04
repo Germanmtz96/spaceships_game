@@ -11,6 +11,7 @@ const inicioScreenNode = document.querySelector("#pantalla-inicio");
 const gameScreenNode = document.querySelector("#pantalla-juego");
 const gameOverScreenNode = document.querySelector("#pantalla-game-over");
 // botones
+const musicaIntroNode = document.querySelector("#startMusicBtn")
 const inputSaveNode = document.querySelector("#name");
 const saveBtnNode = document.querySelector("#save-btn");
 const playBtnNode = document.querySelector("#play-btn");
@@ -50,16 +51,25 @@ let shotEnemyArr = [];
 let escudoArr = [];
 let boss = null;
 console.log(escudoArr)
-sonidoMusicaGame.loop = true;
-sonidoIntro.loop = true;
 
-//todo no funciona sonido
-//sonidoIntro.play()
+
+
+musicaIntroNode.addEventListener("click", () => {
+  sonidoIntro.loop = true;
+  sonidoIntro.volume = 0.05;
+  sonidoIntro.play()
+  musicaIntroNode.style.display = 'none';
+  
+})
+
 
 //* FUNCIONES GLOBALES DEL JUEGO
 function startGame() {
-  //todo no funciona sonido
-  //sonidoMusicaGame.play()
+
+  sonidoIntro.pause()
+
+
+ 
   //1. Ocultar pantalla de inicio
   lvl = 1;
   score = 0;
@@ -128,7 +138,9 @@ function saveUser() {
 
 function gameOver() {
   if (vidas === 0) {
+    sonidoMusicaGame.pause()
     sonidoGameover.play();
+    sonidoGameover.volume = 0.2
 
     enemigoArr.forEach((cadaEnemigo) => {
       cadaEnemigo.node.remove();
@@ -192,7 +204,7 @@ function enemySpawn() {
 //!POR MIRAR
 function bossSpawn() {
   disparos = true;
-  sonidointerferencia.play();
+  
 
   let position = gameBoxNode.offsetHeight / 2;
   let enemy = new Boss(position);
@@ -237,6 +249,9 @@ function shotSpawn() {
 
 function shotEnemySpawn() {
   if (disparos) {
+    sonidoshot1.pause();
+    sonidoshot1.currentTime = 0;
+    sonidoshot1.volume = 0.05
     sonidoshot1.play();
     enemigoArr.forEach((cadaShotEnemigo) => {
       let enemyPositionY = cadaShotEnemigo.y + 12;
@@ -254,7 +269,9 @@ function shotEnemySpawn() {
 //! POR MIRAR
 function muerteEnemigo(){
     if(cadaEnemigo.vida <= 0){
-
+        sonidoExplosion.pause();
+        sonidoExplosion.currentTime = 0;
+        sonidoExplosion.volume = 0.05;
         sonidoExplosion.play();
 
         enemigoArr.splice(indexEnemy, 1);
@@ -287,7 +304,9 @@ function colisionShot() {
                 indexEnemy.vida -= indexShot.damage
             }  */
         //muerteEnemigo()
-
+         sonidoExplosion.pause();
+         sonidoExplosion.currentTime = 0;
+         sonidoExplosion.volume = 0.05
          sonidoExplosion.play();
 
          enemigoArr.splice(indexEnemy, 1);
@@ -305,6 +324,8 @@ function colisionShot() {
 function checkeoPasarDeNivel() {
   if (score === 100) {
     lvl = 2;
+    sonidoLevelUp.play()
+    sonidoLevelUp.volume = 0.1
     message.innerText = `Level ${lvl}`;
     message.classList.remove("txt-lvl");
     setTimeout(function () {
@@ -312,6 +333,8 @@ function checkeoPasarDeNivel() {
     }, 4000);
   } else if (score === 200) {
     lvl = 3;
+    sonidoLevelUp.play()
+    sonidoLevelUp.volume = 0.1
     message.innerText = `Level ${lvl}`;
     message.classList.remove("txt-lvl");
     setTimeout(function () {
@@ -319,6 +342,8 @@ function checkeoPasarDeNivel() {
     }, 4000);
   } else if (score === 300) {
     lvl = 4;
+    sonidoLevelUp.play()
+    sonidoLevelUp.volume = 0.1
     message.innerText = `Level ${lvl}`;
     message.classList.remove("txt-lvl");
     setTimeout(function () {
@@ -326,6 +351,8 @@ function checkeoPasarDeNivel() {
     }, 4000);
   } else if (score === 500) {
     lvl = 5;
+    sonidointerferencia.play();
+    sonidointerferencia.volume = 0.1
     message.innerText = `Level ${lvl}`;
     message.classList.remove("txt-lvl");
     setTimeout(function () {
@@ -338,8 +365,11 @@ function checkeoPasarDeNivel() {
   }
 }
 
+//!ACAVAR FUNCION
 function escudoActivado(){
-    let navePositionY = nanave.y
+  if(escudo > 0){
+  escudo -= 1
+    let navePositionY = nave.y
     let navePositionX = nave.x
     proteccion = new Barrera (navePositionY, navePositionX);
 
@@ -347,7 +377,7 @@ function escudoActivado(){
 
     setTimeout(() => {
         escudoActivado = false;
-      }, 2000);
+      }, 2000);}
 }
 
 function colisionNave() {
@@ -358,12 +388,19 @@ function colisionNave() {
       cadaEnemigo.y < nave.y + nave.h &&
       cadaEnemigo.y + cadaEnemigo.h > nave.y
     ) {
+      sonidoExplosion.pause()
+      sonidoExplosion.currentTime = 0;
+      sonidoExplosion.volume = 0.05
       sonidoExplosion.play();
+
+      sonidointerferencia2.pause();
+      sonidointerferencia2.currentTime = 0;
+      sonidointerferencia2.volume = 0.05
       sonidointerferencia2.play();
       vidas -= 1;
       enemigoArr.splice(index, 1);
       cadaEnemigo.node.remove();
-      // console.log("la nave se estampo")
+      
       nave.node.remove();
       if (vidas >= 1) {
         setTimeout(() => {
@@ -380,11 +417,13 @@ function colisionNave() {
       cadaDisparo.y < nave.y + nave.h &&
       cadaDisparo.y + cadaDisparo.h > nave.y
     ) {
+      sonidointerferencia2.pause();
+      sonidointerferencia2.currentTime = 0;
+      sonidointerferencia2.volume = 0.05
       sonidointerferencia2.play();
       vidas -= 1;
       shotEnemyArr.splice(index, 1);
       cadaDisparo.node.remove();
-      //console.log("disparo certero")
       nave.node.remove();
       if (vidas >= 1) {
         setTimeout(() => {
@@ -402,16 +441,11 @@ function colisionNave() {
       cadaEscudo.y + cadaEscudo.h > nave.y
     ) {
       sonidoBoton.play();
+      sonidoBoton.volume = 0.05;
       escudo += 1;
       escudoArr.splice(index, 1);
       cadaEscudo.node.remove();
-      //todo volverlo de otro color
-      console.log("escudo")
-      /* nave.node.remove()
-            setTimeout(()=>{
-             gameBoxNode.append(nave.node)
-            },200) 
-        }*/
+      
     }
   });
 }
@@ -431,7 +465,7 @@ function sumandoScore() {
 }
 
 function gameLoop() {
-  //console.log("juego andando a 60fps")
+  
   enemigoArr.forEach((cadaEnemigo) => {
     cadaEnemigo.movimientoEnemigo();
   });
@@ -447,9 +481,7 @@ function gameLoop() {
     cadaEscudo.movimientoEscudo()
   })
 
-  /* if(lvl === 5){
-     boss.movimientoBoss()
-} */
+
 
   saludNave();
   sumandoScore();
@@ -488,15 +520,26 @@ window.addEventListener("keydown", (event) => {
     nave.derecha();
   }
 });
-//click
+//! SONIDO MUSICA GAME NO LO SOPORTA
 playBtnNode.addEventListener("click", () => {
   startGame();
   sonidoBoton.play();
-});
+ setTimeout(()=>{
+
+   sonidoMusicaGame.loop = true;
+   sonidoMusicaGame.currentTime = 0
+   sonidoMusicaGame.volume = 0.05;
+   sonidoMusicaGame.play()
+ },1200)
+    
+  })
+  
+
 
 window.addEventListener("keydown", (event) => {
-    if (event.key === "e" && escudo ){
+    if (event.key === "e" && escudo > 0 ){
   escudoActivado = true
+  
   sonidoEscudoLaser.play();
   console.log("escudo activado")
 }
@@ -504,17 +547,31 @@ window.addEventListener("keydown", (event) => {
 
 gameBoxNode.addEventListener("click", () => {
   shotSpawn();
+  sonidoshot2.pause();
+  sonidoshot2.currentTime = 0;
+  sonidoshot2.volume = 0.05
   sonidoshot2.play();
 });
 instruccionesBtnNode.addEventListener("click", () => {
   instrucciones();
+  sonidoBoton.pause();
+  sonidoBoton.currentTime = 0;
   sonidoBoton.play();
 });
 tryAgainBtnNode.addEventListener("click", () => {
   startGame();
   sonidoBoton.play();
+  setTimeout(()=>{
+
+    sonidoMusicaGame.loop = true;
+    sonidoMusicaGame.currentTime = 0
+    sonidoMusicaGame.volume = 0.05;
+    sonidoMusicaGame.play()
+  },1200)
 });
 saveBtnNode.addEventListener("click", () => {
+  sonidoBoton.pause();
+  sonidoBoton.currentTime = 0;
   sonidoBoton.play();
   saveUser();
 });

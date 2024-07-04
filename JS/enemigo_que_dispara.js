@@ -1,7 +1,8 @@
 class Naves4 {
 
-constructor(positionY){
+constructor(positionY , type){
     
+    this.type = "enemy"
     this.node = document.createElement("img")
     this.node.src = "./IMAGENES/Spaceship_01_RED.png"
     this.vida = 50

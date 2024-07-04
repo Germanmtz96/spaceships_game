@@ -247,7 +247,7 @@ function shotSpawn() {
 }
 
 function shotEnemySpawn() {
-  console.log(disparos, lvl);
+ // console.log(disparos, lvl);
 
   sonidoshot1.pause();
   sonidoshot1.currentTime = 0;
@@ -258,13 +258,14 @@ function shotEnemySpawn() {
     let enemyPositionY;
     let type;
     let distanciaY;
+
     if (cadaEnemigo.type === "boss") {
       console.log("disparo jefe")
       enemyPositionY = cadaEnemigo.y + 5;
       enemyPositionX = cadaEnemigo.x - 20;
       type = "boss";
       distanciaY = 150
-    } else {
+    } else if(cadaEnemigo.type === "enemy"){
       enemyPositionY = cadaEnemigo.y + 12;
       enemyPositionX = cadaEnemigo.x + 12;
       type = "enemy";
@@ -357,8 +358,7 @@ function muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot) {
     golpeoEnemigo.play();
 
     cadaEnemigo.vida -= cadaDisparo.damage;
-    shotArr.splice(indexShot, 1);
-    cadaDisparo.node.remove();
+   
   }
   if (cadaEnemigo.vida <= 0) {
     sonidoExplosion.pause();
@@ -368,17 +368,17 @@ function muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot) {
 
     enemigoArr.splice(indexEnemy, 1);
     cadaEnemigo.node.remove();
-    shotArr.splice(indexShot, 1);
-    cadaDisparo.node.remove();
     score += 10;
-
+    
     if (cadaEnemigo.type === "boss") {
       sonidoVictoria.play();
       juegoCompletado()
     }
-
+    
   }
-
+  
+  shotArr.splice(indexShot, 1);
+  cadaDisparo.node.remove();
     
 
 }
@@ -433,7 +433,7 @@ function colisionShot() {
         console.log("colisionando");
         checkeoPasarDeNivel();
         muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot);
-        /* sonidoExplosion.pause();
+        /*  sonidoExplosion.pause();
          sonidoExplosion.currentTime = 0;
          sonidoExplosion.volume = 0.05
          sonidoExplosion.play();
@@ -442,7 +442,7 @@ function colisionShot() {
         cadaEnemigo.node.remove();
         shotArr.splice(indexShot, 1);
         cadaDisparo.node.remove();
-        score += 10;   */
+        score += 10;  */  
       }
     });
   });
@@ -488,7 +488,9 @@ function checkeoPasarDeNivel() {
     clearInterval(enemyInterval);
     clearInterval(shotEnemyInteval);
     clearInterval(escudoInterval);
+    console.log("boss spawn")
     bossSpawn();
+    
   }
 }
 

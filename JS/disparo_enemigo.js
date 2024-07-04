@@ -12,10 +12,10 @@ class DisparoEnemigo {
     if (type === "enemy") {
       this.w = 5; // ancho
       this.h = 15; // alto
-      this.speed = 2.5;
+      this.speed = 3;
     } else if (type === "boss") {
-      this.w = 20; // ancho
-      this.h = 60; // alto
+      this.w = 30; // ancho
+      this.h = 90; // alto
       this.speed = 5;
     }
     

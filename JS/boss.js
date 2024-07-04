@@ -2,13 +2,14 @@ class Boss{
 
         constructor(){
 
+            this.type = "boss"
             this.node = document.createElement("img")
             this.node.src = "./IMAGENES/Spaceship_02_RED.png"
             this.vida = 2000
             this.x = gameScreenNode.offsetWidth // posicion eje X
-            this.y = gameScreenNode.offsetHeight / 2 - 100
-            this.w = 150 // ancho
-            this.h = 150 // alto
+            this.y = gameScreenNode.offsetHeight / 2 - 130
+            this.w = 250 // ancho
+            this.h = 250 // alto
             this.speed = 1
             gameBoxNode.append(this.node)
             
@@ -27,9 +28,11 @@ class Boss{
 
 
         movimientoEnemigo(){
-            
+                if(this.x + this.w > 600){
                 this.x -= this.speed
                 this.node.style.left = `${this.x}px`
+
+            }
         }
         
 

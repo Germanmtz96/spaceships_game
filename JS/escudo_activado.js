@@ -3,11 +3,11 @@ class Barrera {
     constructor(positionY, positionX, usos){
 
         this.node = document.createElement("img")
-        this.node.src = "./IMAGENES/barrera.png"
+        this.node.src = "./IMAGENES/barrera4.png"
         gameBoxNode.append(this.node)
 
-        this.w = 90 // ancho
-        this.h = 90 // alto
+        this.w = 100 // ancho
+        this.h = 100 // alto
         this.x = positionX
         this.y = positionY
 

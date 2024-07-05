@@ -31,7 +31,7 @@ class Enemy {
 
             gameBoxNode.append(this.node)
 
-            this.x = gameScreenNode.offsetWidth // posicion eje X
+            this.x = gameBoxNode.offsetWidth // posicion eje X
             this.y = positionY
             
             this.node.style.transform = "rotate(-90deg)"

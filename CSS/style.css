@@ -1,4 +1,4 @@
-#pantalla-game-over{
+#pantalla-game-over, #pantalla-win{
     display : none;
     width: 100vw;
 }
@@ -191,7 +191,7 @@ body{
     width: 100vw;
   }
 
-#try-again-btn{
+#try-again-btn, #restart-btn{
     width: 380px;
     height: 100px;
     margin-top: 490px;

@@ -33,10 +33,14 @@ class Boss{
                 this.node.style.left = `${this.x}px`
 
             }
+        
+        }
+
+
+
         }
         
 
 
     
 
-}

@@ -1,19 +1,19 @@
-//? QUE EL NOMBRE DE USUARIO SALGA EN PARTIDA Y EN LA PANTALLA DE VICTORIA EL SCORE
-//? PONER VIDA AL BOSS Y PANTALLA DE VICTORIA
 
-//* ELEMENTOS PRINCIPALES DEL DOM
-// pantallas
+
+
 const inicioScreenNode = document.querySelector("#pantalla-inicio");
 const gameScreenNode = document.querySelector("#pantalla-juego");
 const gameOverScreenNode = document.querySelector("#pantalla-game-over");
-// botones
+const gameWinNode = document.querySelector("#pantalla-win")
+
 const musicaIntroNode = document.querySelector("#startMusicBtn");
 const inputSaveNode = document.querySelector("#name");
 const saveBtnNode = document.querySelector("#save-btn");
 const playBtnNode = document.querySelector("#play-btn");
 const instruccionesBtnNode = document.querySelector("#instrucciones-btn");
 const tryAgainBtnNode = document.querySelector("#try-again-btn");
-//textos
+const restartBtnNode = document.querySelector("#restart-btn")
+
 const saludoUserNode = document.querySelector("#saludoUser");
 const message = document.querySelector("#message");
 const userNode = document.querySelector("#user");
@@ -23,10 +23,10 @@ const vidasNode = document.querySelector("#vidas");
 const scoreNode = document.querySelector("#score");
 
 const instruccionesNode = document.querySelector("#instrucciones");
-//game box
+
 const gameBoxNode = document.querySelector("#game-box");
 
-//* VARIABLES GLOBALES DEL JUEGO
+
 let userName = null;
 let instruccion = true;
 let otraPartida = true;
@@ -49,7 +49,7 @@ let shotArr = [];
 let shotEnemyArr = [];
 let escudoArr = [];
 
-console.log(escudoArr);
+
 
 musicaIntroNode.addEventListener("click", () => {
   sonidoIntro.loop = true;
@@ -58,11 +58,11 @@ musicaIntroNode.addEventListener("click", () => {
   musicaIntroNode.style.display = "none";
 });
 
-//* FUNCIONES GLOBALES DEL JUEGO
+
 function startGame() {
   sonidoIntro.pause();
 
-  //1. Ocultar pantalla de inicio
+  
   lvl = 1;
   score = 0;
   vidas = 3;
@@ -87,11 +87,11 @@ function startGame() {
     gameScreenNode.offsetHeight / 2 - 30
   );
 
-  //4.Iniciar el intervalo inicial del juego (gameLoop)
+  
   mainIntervalId = setInterval(() => {
     gameLoop();
   }, Math.round(1000 / 60));
-  //5. Iniciamos otros intervalos que determinan la frecuencia con la que aparecen los elementos (tuberias) del juego
+ 
   enemyInterval = setInterval(() => {
     enemySpawn();
   }, 1000);
@@ -103,10 +103,11 @@ function startGame() {
   escudoInterval = setInterval(() => {
     escudoSpawn();
   }, 7000);
-
+  
   bossInterval = setInterval(() => {
     shotEnemySpawn();
-  }, 7000);
+ }, 7000);
+
 }
 
 function instrucciones() {
@@ -153,16 +154,16 @@ function gameOver() {
     shotEnemyArr = [];
     escudoArr = [];
 
-    //* 1.Limpiar todos los intervalos
+  
     clearInterval(mainIntervalId);
     clearInterval(enemyInterval);
     clearInterval(shotEnemyInteval);
     clearInterval(bossInterval);
     clearInterval(escudoInterval);
-    //* 2. Ocultar la pantalla de juego
+   
 
     gameScreenNode.style.display = "none";
-    //* 3. Mostrar la pantalla final
+   
     gameOverScreenNode.style.display = "flex";
   }
 }
@@ -189,7 +190,7 @@ function enemySpawn() {
     enemy = new Enemy(randomPositionY, lvl);
   }
   enemigoArr.push(enemy);
-  //console.log(enemigoArr.length);
+ 
 }
 
 function bossSpawn() {
@@ -200,8 +201,9 @@ function bossSpawn() {
   });
   enemigoArr = [];
   enemigoArr.push(boss);
-  console.log(enemigoArr)
+
 }
+
 function actualizarMovimientoEscudo() {
   if (estaEscudoActivado === true) {
     proteccion.x = nave.x - 10;
@@ -210,6 +212,7 @@ function actualizarMovimientoEscudo() {
     proteccion.node.style.top = `${proteccion.y}px`;
   }
 }
+
 function cheackEnemyDisapear() {
   let firstEnemy = enemigoArr[0];
   if (firstEnemy && firstEnemy.x + firstEnemy.w <= 0) {
@@ -247,7 +250,10 @@ function shotSpawn() {
 }
 
 function shotEnemySpawn() {
- // console.log(disparos, lvl);
+
+  if(!disparos) {
+    return
+  }
 
   sonidoshot1.pause();
   sonidoshot1.currentTime = 0;
@@ -289,31 +295,15 @@ function shotEnemySpawn() {
       console.log(shotEnemyAbajo)
     }
   });
-  /*}else if(disparos && lvl === 5){
-    //bossSpawn();
-    sonidoShotBoss.pause();
-    sonidoShotBoss.currentTime = 0;
-    sonidoShotBoss.volume = 0.05
-    sonidoShotBoss.play();
-    //enemigoArr.forEach((cadaShotEnemigo) => {
-      let bossPositionY = boss.y + 5;
-      let bossPositionX = boss.x -20;
-      let shotBoss = new DisparoEnemigo(bossPositionY, bossPositionX, "boss");
-      shotEnemyArr.push(shotBoss);
-      let shotBossAbajo = new DisparoEnemigo(
-        bossPositionY + 150,
-        bossPositionX, 
-        "boss"
-      );
-      shotEnemyArr.push(shotBossAbajo);
-   // });
-  }*/
+
 }
 
 function juegoCompletado() {
   sonidoMusicaGame.pause();
   sonidoVictoria.play();
   sonidoVictoria.volume = 0.2;
+  gameScreenNode.style.display = "none";
+  gameWinNode.style.display = "flex";
 
   enemigoArr.forEach((cadaEnemigo) => {
     cadaEnemigo.node.remove();
@@ -328,7 +318,9 @@ function juegoCompletado() {
     cadaEscudo.node.remove();
   });
   nave.node.remove();
-  escudo.node.remove();
+  if (escudo) {
+     escudo.node.remove();
+  }
 
   save = null;
   lvl = null;
@@ -337,17 +329,15 @@ function juegoCompletado() {
   shotEnemyArr = [];
   escudoArr = [];
 
-  //* 1.Limpiar todos los intervalos
+ 
   clearInterval(mainIntervalId);
   clearInterval(enemyInterval);
   clearInterval(shotEnemyInteval);
   clearInterval(bossInterval);
   clearInterval(escudoInterval);
-  //* 2. Ocultar la pantalla de juego
+  
 
-  gameScreenNode.style.display = "none";
-  //* 3. Mostrar la pantalla final
-  gameOverScreenNode.style.display = "flex";
+  
 }
 
 function muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot) {
@@ -430,19 +420,8 @@ function colisionShot() {
         cadaDisparo.y < cadaEnemigo.y + cadaEnemigo.h &&
         cadaDisparo.y + cadaDisparo.h > cadaEnemigo.y
       ) {
-        console.log("colisionando");
         checkeoPasarDeNivel();
         muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot);
-        /*  sonidoExplosion.pause();
-         sonidoExplosion.currentTime = 0;
-         sonidoExplosion.volume = 0.05
-         sonidoExplosion.play();
-
-        enemigoArr.splice(indexEnemy, 1);
-        cadaEnemigo.node.remove();
-        shotArr.splice(indexShot, 1);
-        cadaDisparo.node.remove();
-        score += 10;  */  
       }
     });
   });
@@ -476,7 +455,7 @@ function checkeoPasarDeNivel() {
     setTimeout(function () {
       message.classList.add("txt-lvl");
     }, 4000);
-  } else if (!enemigoArr.some((eachEnemy) => eachEnemy.type === "boss") && score === 500) {
+  } else if (!enemigoArr.some((eachEnemy) => eachEnemy.type === "boss") && score === 50) {
     lvl = 5;
     sonidointerferencia.play();
     sonidointerferencia.volume = 0.1;
@@ -488,7 +467,7 @@ function checkeoPasarDeNivel() {
     clearInterval(enemyInterval);
     clearInterval(shotEnemyInteval);
     clearInterval(escudoInterval);
-    console.log("boss spawn")
+    
     bossSpawn();
     
   }
@@ -637,7 +616,7 @@ function gameLoop() {
   cheackShotEnemyDisapear();
 }
 
-//* EVENT LISTENERS
+
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "w") {
@@ -662,7 +641,7 @@ window.addEventListener("keydown", (event) => {
     nave.derecha();
   }
 });
-//! SONIDO MUSICA GAME NO LO SOPORTA
+
 playBtnNode.addEventListener("click", () => {
   startGame();
   sonidoBoton.play();
@@ -706,6 +685,18 @@ tryAgainBtnNode.addEventListener("click", () => {
     sonidoMusicaGame.play();
   }, 1200);
 });
+restartBtnNode.addEventListener("click", () => {
+  startGame();
+  sonidoBoton.play();
+  setTimeout(() => {
+    sonidoMusicaGame.loop = true;
+    sonidoMusicaGame.currentTime = 0;
+    sonidoMusicaGame.volume = 0.05;
+    sonidoMusicaGame.play();
+  }, 1200);
+})
+
+
 saveBtnNode.addEventListener("click", () => {
   sonidoBoton.pause();
   sonidoBoton.currentTime = 0;

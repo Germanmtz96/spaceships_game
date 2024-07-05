@@ -1,7 +1,7 @@
 const inicioScreenNode = document.querySelector("#pantalla-inicio");
 const gameScreenNode = document.querySelector("#pantalla-juego");
 const gameOverScreenNode = document.querySelector("#pantalla-game-over");
-const gameWinNode = document.querySelector("#pantalla-win")
+const gameWinNode = document.querySelector("#pantalla-win");
 
 const musicaIntroNode = document.querySelector("#startMusicBtn");
 const inputSaveNode = document.querySelector("#name");
@@ -9,7 +9,7 @@ const saveBtnNode = document.querySelector("#save-btn");
 const playBtnNode = document.querySelector("#play-btn");
 const instruccionesBtnNode = document.querySelector("#instrucciones-btn");
 const tryAgainBtnNode = document.querySelector("#try-again-btn");
-const restartBtnNode = document.querySelector("#restart-btn")
+const restartBtnNode = document.querySelector("#restart-btn");
 
 const saludoUserNode = document.querySelector("#saludoUser");
 const message = document.querySelector("#message");
@@ -22,7 +22,6 @@ const scoreNode = document.querySelector("#score");
 const instruccionesNode = document.querySelector("#instrucciones");
 
 const gameBoxNode = document.querySelector("#game-box");
-
 
 let userName = null;
 let instruccion = true;
@@ -46,8 +45,6 @@ let shotArr = [];
 let shotEnemyArr = [];
 let escudoArr = [];
 
-
-
 musicaIntroNode.addEventListener("click", () => {
   sonidoIntro.loop = true;
   sonidoIntro.volume = 0.05;
@@ -55,16 +52,13 @@ musicaIntroNode.addEventListener("click", () => {
   musicaIntroNode.style.display = "none";
 });
 
-
 function startGame() {
   sonidoIntro.pause();
 
-  
   lvl = 1;
   score = 0;
   vidas = 3;
   escudo = 0;
-  
 
   disparos = false;
   message.innerText = `Level ${lvl}`;
@@ -73,6 +67,7 @@ function startGame() {
     message.classList.add("txt-lvl");
   }, 2500);
 
+  gameWinNode.style.display = "none"
   gameOverScreenNode.style.display = "none";
   inicioScreenNode.style.display = "none";
 
@@ -84,11 +79,10 @@ function startGame() {
     gameScreenNode.offsetHeight / 2 - 30
   );
 
-  
   mainIntervalId = setInterval(() => {
     gameLoop();
   }, Math.round(1000 / 60));
- 
+
   enemyInterval = setInterval(() => {
     enemySpawn();
   }, 1000);
@@ -103,8 +97,7 @@ function startGame() {
 
   bossInterval = setInterval(() => {
     shotEnemySpawn();
- }, 4000);
-
+  }, 4000);
 }
 
 function instrucciones() {
@@ -151,16 +144,14 @@ function gameOver() {
     shotEnemyArr = [];
     escudoArr = [];
 
-  
     clearInterval(mainIntervalId);
     clearInterval(enemyInterval);
     clearInterval(shotEnemyInteval);
     clearInterval(bossInterval);
     clearInterval(escudoInterval);
-   
 
     gameScreenNode.style.display = "none";
-   
+
     gameOverScreenNode.style.display = "flex";
   }
 }
@@ -187,7 +178,6 @@ function enemySpawn() {
     enemy = new Enemy(randomPositionY, lvl);
   }
   enemigoArr.push(enemy);
- 
 }
 
 function bossSpawn() {
@@ -198,7 +188,6 @@ function bossSpawn() {
   });
   enemigoArr = [];
   enemigoArr.push(boss);
-
 }
 
 function actualizarMovimientoEscudo() {
@@ -247,45 +236,43 @@ function shotSpawn() {
 }
 
 function shotEnemySpawn() {
-  
-  if(!disparos){
-    return
+  if (!disparos) {
+    return;
   }
 
-    sonidoshot1.pause();
-    sonidoshot1.currentTime = 0;
-    sonidoshot1.volume = 0.05;
-    sonidoshot1.play();
-    enemigoArr.forEach((cadaEnemigo) => {
-      let enemyPositionX;
-      let enemyPositionY;
-      let type;
-      let distanciaY;
+  sonidoshot1.pause();
+  sonidoshot1.currentTime = 0;
+  sonidoshot1.volume = 0.05;
+  sonidoshot1.play();
 
-  if(disparos && lvl === 4) {
-    if(cadaEnemigo.type === "enemy"){
-     enemyPositionY = cadaEnemigo.y + 12;
-     enemyPositionX = cadaEnemigo.x + 12;
-     type = "enemy";
-     distanciaY = 30
-  
-   }
-    
-  }
-  if (disparos && lvl === 5){
-    if (cadaEnemigo.type === "boss") {
-      
-      enemyPositionY = cadaEnemigo.y + 5;
-      enemyPositionX = cadaEnemigo.x - 20;
-      type = "boss";
-      distanciaY = 150
-    } 
-  }
-    let shotEnemy = new DisparoEnemigo(
-      enemyPositionY, 
-      enemyPositionX, 
-      type
-    );
+  enemigoArr.forEach((cadaEnemigo) => {
+
+    if(cadaEnemigo.type !== "enemy" && cadaEnemigo.type !== "boss") {
+      return // deten la iteracion del forEach (no dispares)
+    }
+
+    let enemyPositionX;
+    let enemyPositionY;
+    let type;
+    let distanciaY;
+
+    if (lvl === 4) {
+      if (cadaEnemigo.type === "enemy") {
+        enemyPositionY = cadaEnemigo.y + 12;
+        enemyPositionX = cadaEnemigo.x + 12;
+        type = "enemy";
+        distanciaY = 30;
+      }
+    }
+    if (lvl === 5) {
+      if (cadaEnemigo.type === "boss") {
+        enemyPositionY = cadaEnemigo.y + 5;
+        enemyPositionX = cadaEnemigo.x - 20;
+        type = "boss";
+        distanciaY = 150;
+      }
+    }
+    let shotEnemy = new DisparoEnemigo(enemyPositionY, enemyPositionX, type);
     shotEnemyArr.push(shotEnemy);
     let shotEnemyAbajo = new DisparoEnemigo(
       enemyPositionY + distanciaY,
@@ -293,12 +280,8 @@ function shotEnemySpawn() {
       type
     );
     shotEnemyArr.push(shotEnemyAbajo);
-     
-      
-      
-    
+    console.log(shotEnemyArr)
   });
-
 }
 
 function juegoCompletado() {
@@ -322,7 +305,7 @@ function juegoCompletado() {
   });
   nave.node.remove();
   if (escudo) {
-     escudo.node.remove();
+    escudo.node.remove();
   }
 
   save = null;
@@ -332,15 +315,11 @@ function juegoCompletado() {
   shotEnemyArr = [];
   escudoArr = [];
 
- 
   clearInterval(mainIntervalId);
   clearInterval(enemyInterval);
   clearInterval(shotEnemyInteval);
   clearInterval(bossInterval);
   clearInterval(escudoInterval);
-  
-
-  
 }
 
 function muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot) {
@@ -351,7 +330,6 @@ function muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot) {
     golpeoEnemigo.play();
 
     cadaEnemigo.vida -= cadaDisparo.damage;
-   
   }
   if (cadaEnemigo.vida <= 0) {
     sonidoExplosion.pause();
@@ -362,18 +340,15 @@ function muerteEnemigo(cadaEnemigo, cadaDisparo, indexEnemy, indexShot) {
     enemigoArr.splice(indexEnemy, 1);
     cadaEnemigo.node.remove();
     score += 10;
-    
+
     if (cadaEnemigo.type === "boss") {
       sonidoVictoria.play();
-      juegoCompletado()
+      juegoCompletado();
     }
-    
   }
-  
+
   shotArr.splice(indexShot, 1);
   cadaDisparo.node.remove();
-    
-
 }
 
 function colisionEscudo() {
@@ -458,7 +433,10 @@ function checkeoPasarDeNivel() {
     setTimeout(function () {
       message.classList.add("txt-lvl");
     }, 4000);
-  } else if (!enemigoArr.some((eachEnemy) => eachEnemy.type === "boss") && score === 500) {
+  } else if (
+    !enemigoArr.some((eachEnemy) => eachEnemy.type === "boss") &&
+    score === 500
+  ) {
     lvl = 5;
     sonidointerferencia.play();
     sonidointerferencia.volume = 0.1;
@@ -470,9 +448,8 @@ function checkeoPasarDeNivel() {
     clearInterval(enemyInterval);
     clearInterval(shotEnemyInteval);
     clearInterval(escudoInterval);
-    
+
     bossSpawn();
-    
   }
 }
 
@@ -606,7 +583,7 @@ function gameLoop() {
   });
 
   actualizarMovimientoEscudo();
-  
+
   escudosNave();
   saludNave();
   sumandoScore();
@@ -620,7 +597,6 @@ function gameLoop() {
   cheackEnemyDisapear();
   cheackShotEnemyDisapear();
 }
-
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "w") {
@@ -692,6 +668,7 @@ tryAgainBtnNode.addEventListener("click", () => {
 });
 
 restartBtnNode.addEventListener("click", () => {
+
   startGame();
   sonidoBoton.play();
   setTimeout(() => {
@@ -700,7 +677,7 @@ restartBtnNode.addEventListener("click", () => {
     sonidoMusicaGame.volume = 0.05;
     sonidoMusicaGame.play();
   }, 1200);
-})
+});
 
 saveBtnNode.addEventListener("click", () => {
   sonidoBoton.pause();

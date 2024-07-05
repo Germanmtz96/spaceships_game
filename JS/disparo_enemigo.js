@@ -12,11 +12,11 @@ class DisparoEnemigo {
     if (type === "enemy") {
       this.w = 5; // ancho
       this.h = 15; // alto
-      this.speed = 3;
+      this.speed = 4;
     } else if (type === "boss") {
       this.w = 30; // ancho
       this.h = 90; // alto
-      this.speed = 5;
+      this.speed = 6;
     }
     
     this.node.style.position = "absolute"; //para poder usar las propiedades top y left(si no las ignora)

@@ -8,7 +8,7 @@ class Escudo {
         this.h = 50 // alto
         this.x = gameScreenNode.offsetWidth // posicion eje X
         this.y = positionY
-        this.speed = 10
+        this.speed = 4
         
         
 

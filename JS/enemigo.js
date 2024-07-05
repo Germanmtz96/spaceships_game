@@ -5,14 +5,14 @@ class Enemy {
         this.node = document.createElement("img")
         if(type === 1){
         this.node.src = "./IMAGENES/Spaceship_03_RED.png"
-        this.vida = 40
+        this.vida = 60
         this.w = 50 // ancho
         this.h = 50 // alto
         this.speed = 3
         }
         else if(type === 2){
             this.node.src = "./IMAGENES/Spaceship_04_RED.png"
-            this.vida = 20
+            this.vida = 40
             this.w = 60 // ancho
             this.h = 60 // alto
             this.speed = 5

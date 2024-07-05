@@ -1,6 +1,3 @@
-
-
-
 const inicioScreenNode = document.querySelector("#pantalla-inicio");
 const gameScreenNode = document.querySelector("#pantalla-juego");
 const gameOverScreenNode = document.querySelector("#pantalla-game-over");
@@ -66,7 +63,7 @@ function startGame() {
   lvl = 1;
   score = 0;
   vidas = 3;
-  escudo = 1;
+  escudo = 0;
   
 
   disparos = false;
@@ -98,15 +95,15 @@ function startGame() {
 
   shotEnemyInteval = setInterval(() => {
     shotEnemySpawn();
-  }, 5000);
+  }, 6000);
 
   escudoInterval = setInterval(() => {
     escudoSpawn();
-  }, 7000);
-  
+  }, 10000);
+
   bossInterval = setInterval(() => {
     shotEnemySpawn();
- }, 7000);
+ }, 4000);
 
 }
 
@@ -250,34 +247,40 @@ function shotSpawn() {
 }
 
 function shotEnemySpawn() {
-
-  if(!disparos) {
+  
+  if(!disparos){
     return
   }
 
-  sonidoshot1.pause();
-  sonidoshot1.currentTime = 0;
-  sonidoshot1.volume = 0.05;
-  sonidoshot1.play();
-  enemigoArr.forEach((cadaEnemigo) => {
-    let enemyPositionX;
-    let enemyPositionY;
-    let type;
-    let distanciaY;
+    sonidoshot1.pause();
+    sonidoshot1.currentTime = 0;
+    sonidoshot1.volume = 0.05;
+    sonidoshot1.play();
+    enemigoArr.forEach((cadaEnemigo) => {
+      let enemyPositionX;
+      let enemyPositionY;
+      let type;
+      let distanciaY;
 
+  if(disparos && lvl === 4) {
+    if(cadaEnemigo.type === "enemy"){
+     enemyPositionY = cadaEnemigo.y + 12;
+     enemyPositionX = cadaEnemigo.x + 12;
+     type = "enemy";
+     distanciaY = 30
+  
+   }
+    
+  }
+  if (disparos && lvl === 5){
     if (cadaEnemigo.type === "boss") {
-      console.log("disparo jefe")
+      
       enemyPositionY = cadaEnemigo.y + 5;
       enemyPositionX = cadaEnemigo.x - 20;
       type = "boss";
       distanciaY = 150
-    } else if(cadaEnemigo.type === "enemy"){
-      enemyPositionY = cadaEnemigo.y + 12;
-      enemyPositionX = cadaEnemigo.x + 12;
-      type = "enemy";
-      distanciaY = 30
-    }
-
+    } 
+  }
     let shotEnemy = new DisparoEnemigo(
       enemyPositionY, 
       enemyPositionX, 
@@ -290,10 +293,10 @@ function shotEnemySpawn() {
       type
     );
     shotEnemyArr.push(shotEnemyAbajo);
-    if (cadaEnemigo.type === "boss") {
-      console.log(shotEnemy)
-      console.log(shotEnemyAbajo)
-    }
+     
+      
+      
+    
   });
 
 }
@@ -301,7 +304,7 @@ function shotEnemySpawn() {
 function juegoCompletado() {
   sonidoMusicaGame.pause();
   sonidoVictoria.play();
-  sonidoVictoria.volume = 0.2;
+  sonidoVictoria.volume = 0.1;
   gameScreenNode.style.display = "none";
   gameWinNode.style.display = "flex";
 
@@ -455,7 +458,7 @@ function checkeoPasarDeNivel() {
     setTimeout(function () {
       message.classList.add("txt-lvl");
     }, 4000);
-  } else if (!enemigoArr.some((eachEnemy) => eachEnemy.type === "boss") && score === 50) {
+  } else if (!enemigoArr.some((eachEnemy) => eachEnemy.type === "boss") && score === 500) {
     lvl = 5;
     sonidointerferencia.play();
     sonidointerferencia.volume = 0.1;
@@ -553,6 +556,7 @@ function colisionNave() {
     }
   });
 }
+
 function escudosNave() {
   if (escudo === 6) {
     escudoNode.innerText = `ESCUDOS 🛡️🛡️🛡️🛡️🛡️🛡️`;
@@ -600,8 +604,9 @@ function gameLoop() {
   escudoArr.forEach((cadaEscudo) => {
     cadaEscudo.movimientoEscudo();
   });
-  actualizarMovimientoEscudo();
 
+  actualizarMovimientoEscudo();
+  
   escudosNave();
   saludNave();
   sumandoScore();
@@ -615,7 +620,6 @@ function gameLoop() {
   cheackEnemyDisapear();
   cheackShotEnemyDisapear();
 }
-
 
 
 window.addEventListener("keydown", (event) => {
@@ -658,7 +662,6 @@ window.addEventListener("keydown", (event) => {
     estaEscudoActivado = true;
     escudoActivado();
     sonidoEscudoLaser.play();
-    console.log("escudo activado");
   }
 });
 
@@ -669,12 +672,14 @@ gameBoxNode.addEventListener("click", () => {
   sonidoshot2.volume = 0.05;
   sonidoshot2.play();
 });
+
 instruccionesBtnNode.addEventListener("click", () => {
   instrucciones();
   sonidoBoton.pause();
   sonidoBoton.currentTime = 0;
   sonidoBoton.play();
 });
+
 tryAgainBtnNode.addEventListener("click", () => {
   startGame();
   sonidoBoton.play();
@@ -685,6 +690,7 @@ tryAgainBtnNode.addEventListener("click", () => {
     sonidoMusicaGame.play();
   }, 1200);
 });
+
 restartBtnNode.addEventListener("click", () => {
   startGame();
   sonidoBoton.play();
@@ -695,7 +701,6 @@ restartBtnNode.addEventListener("click", () => {
     sonidoMusicaGame.play();
   }, 1200);
 })
-
 
 saveBtnNode.addEventListener("click", () => {
   sonidoBoton.pause();

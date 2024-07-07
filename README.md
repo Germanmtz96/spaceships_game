@@ -3,7 +3,7 @@
 ![Spaceship_05_BLUE](https://github.com/Germanmtz96/spaceships_game/assets/167866753/f657a2f8-19f1-4923-ae1c-14256fbabfe6) [¡JUGAR!](https://germanmtz96.github.io/spaceships_game/)
 <a href="https://germanmtz96.github.io/spaceships_game/"></a>
 ---
-## DESCRIPCION
+## DESCRIPCIÓN
 
 En este juego tendrás que manejar una nave espacial para proteger la galaxia de enemigos de otros planetas.
 Habrá 5 tipos de enemigos distintos y te aparecerán según en el nivel que te encuentres en ese momento, completando el nivel 5 habrás defendido la galaxia con éxito.
